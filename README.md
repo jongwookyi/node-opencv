@@ -1,8 +1,8 @@
 # node-opencv
 ## Caution
 - This is forked version of https://github.com/peterbraden/node-opencv
-- Modified:
-1. Change VideoCapture's set and get method
+- Modified:  
+ 1. Change VideoCapture's set and get method
 
 ## Description
 [OpenCV](http://opencv.org) bindings for Node.js. OpenCV is
