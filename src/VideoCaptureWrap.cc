@@ -3,6 +3,7 @@
 #include "OpenCV.h"
 
 #include  <iostream>
+using namespace std;
 
 Nan::Persistent<FunctionTemplate> VideoCaptureWrap::constructor;
 
@@ -28,8 +29,8 @@ void VideoCaptureWrap::Init(Local<Object> target) {
   //Local<ObjectTemplate> proto = constructor->PrototypeTemplate();
 
   Nan::SetPrototypeMethod(ctor, "read", Read);
-  Nan::SetPrototypeMethod(ctor, "setWidth", SetWidth);
-  Nan::SetPrototypeMethod(ctor, "setHeight", SetHeight);
+  Nan::SetPrototypeMethod(ctor, "set", Set);
+  Nan::SetPrototypeMethod(ctor, "get", Get);
   Nan::SetPrototypeMethod(ctor, "setPosition", SetPosition);
   Nan::SetPrototypeMethod(ctor, "getFrameAt", GetFrameAt);
   Nan::SetPrototypeMethod(ctor, "getFrameCount", GetFrameCount);
@@ -37,6 +38,24 @@ void VideoCaptureWrap::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "ReadSync", ReadSync);
   Nan::SetPrototypeMethod(ctor, "grab", Grab);
   Nan::SetPrototypeMethod(ctor, "retrieve", Retrieve);
+
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_POS_MSEC);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_POS_FRAMES);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_POS_AVI_RATIO);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_FRAME_WIDTH);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_FRAME_HEIGHT);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_FPS);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_FOURCC);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_FRAME_COUNT);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_FORMAT);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_MODE);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_BRIGHTNESS);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_CONTRAST);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_SATURATION);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_HUE);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_GAIN);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_EXPOSURE);
+  NODE_DEFINE_CONSTANT(ctor->GetFunction(), CV_CAP_PROP_CONVERT_RGB);
 
   target->Set(Nan::New("VideoCapture").ToLocalChecked(), ctor->GetFunction());
 }
@@ -79,19 +98,33 @@ VideoCaptureWrap::VideoCaptureWrap(const std::string& filename) {
   }
 }
 
-NAN_METHOD(VideoCaptureWrap::SetWidth) {
+NAN_METHOD(VideoCaptureWrap::Set) {
   Nan::HandleScope scope;
   VideoCaptureWrap *v = Nan::ObjectWrap::Unwrap<VideoCaptureWrap>(info.This());
 
-  if(info.Length() != 1)
+  if (info.Length() != 2)
+    return;
+
+  int idx = info[0]->Int32Value();
+  double val = info[1]->NumberValue();
+
+  if (v->cap.isOpened())
+    v->cap.set(idx, val);
+
   return;
+}
 
-  int w = info[0]->IntegerValue();
+NAN_METHOD(VideoCaptureWrap::Get) {
+  Nan::HandleScope scope;
+  VideoCaptureWrap *v = Nan::ObjectWrap::Unwrap<VideoCaptureWrap>(info.This());
 
-  if(v->cap.isOpened())
-  v->cap.set(CV_CAP_PROP_FRAME_WIDTH, w);
+  if (info.Length() != 1)
+    return;
 
-  return;
+  int idx = info[0]->Int32Value();
+  double val = v->cap.get(idx);
+
+  info.GetReturnValue().Set(Nan::New<Number>(val));
 }
 
 NAN_METHOD(VideoCaptureWrap::GetFrameCount) {
@@ -101,20 +134,6 @@ NAN_METHOD(VideoCaptureWrap::GetFrameCount) {
   int cnt = int(v->cap.get(CV_CAP_PROP_FRAME_COUNT));
 
   info.GetReturnValue().Set(Nan::New<Number>(cnt));
-}
-
-NAN_METHOD(VideoCaptureWrap::SetHeight) {
-  Nan::HandleScope scope;
-  VideoCaptureWrap *v = Nan::ObjectWrap::Unwrap<VideoCaptureWrap>(info.This());
-
-  if(info.Length() != 1)
-  return;
-
-  int h = info[0]->IntegerValue();
-
-  v->cap.set(CV_CAP_PROP_FRAME_HEIGHT, h);
-
-  return;
 }
 
 NAN_METHOD(VideoCaptureWrap::SetPosition) {

@@ -18,8 +18,8 @@ public:
   static NAN_METHOD(Retrieve);
 
   // (Optional) For setting width and height of the input video stream
-  static NAN_METHOD(SetWidth);
-  static NAN_METHOD(SetHeight);
+  static NAN_METHOD(Get);
+  static NAN_METHOD(Set);
 
   // to set frame position
   static NAN_METHOD(SetPosition);
