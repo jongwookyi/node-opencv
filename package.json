@@ -2,7 +2,7 @@
   "name": "opencv",
   "version": "5.0.0",
   "description": "Node Bindings to OpenCV",
-  "author": "Peter Braden <peterbraden@peterbraden.co.uk>",
+  "author": "kukdh1 <kukdh1@gmail.com>",
   "dependencies": {
     "buffers": "^0.1.1",
     "nan": "^2.0.9",
@@ -32,7 +32,7 @@
   "main": "./lib/opencv",
   "repository": {
     "type": "git",
-    "url": "https://github.com/peterbraden/node-opencv.git"
+    "url": "https://github.com/kukdh1/node-opencv.git"
   },
   "engines": {
     "node": ">=0.12"

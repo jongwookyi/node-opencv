@@ -1,8 +1,10 @@
 # node-opencv
+## Caution
+- This is forked version of https://github.com/peterbraden/node-opencv
+- Modified:
+1. Change VideoCapture's set and get method
 
-[![Build Status](https://secure.travis-ci.org/peterbraden/node-opencv.png)](http://travis-ci.org/peterbraden/node-opencv)
-
-
+## Description
 [OpenCV](http://opencv.org) bindings for Node.js. OpenCV is
 the defacto computer vision library - by interfacing with it natively in node,
 we get powerful real time vision in js.
@@ -35,7 +37,7 @@ adjust accordingly.
    set the "vcxx" part of the variables above to match.
 
 4. Download peterbraden/node-opencv fork
-git clone https://github.com/peterbraden/node-opencv
+git clone https://github.com/kukdh1/node-opencv
 
 5. run npm install
 
