@@ -20,7 +20,8 @@
   "license": "MIT",
   "scripts": {
     "build": "node-gyp build",
-    "test": "node test/unit.js"
+    "test": "node test/unit.js",
+    "install": "node-pre-gyp install --fallback-to-build"
   },
   "keywords": [
     "opencv",
@@ -38,6 +39,9 @@
   },
   "binary": {
     "module_name": "opencv",
-    "module_path": "./build/{module_name}/v{version}/{configuration}/{node_abi}-{platform}-{arch}/"
+    "module_path": "./build/{module_name}/v{version}/{configuration}/{node_abi}-{platform}-{arch}/",
+    "remote_path": "./{module_name}/v{version}/{configuration}/",
+    "package_name": "{node_abi}-{platform}-{arch}.tar.gz",
+    "host": "https://node-opencv.s3.amazonaws.com"
   }
 }
