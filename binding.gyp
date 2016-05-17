@@ -26,14 +26,6 @@
       "libraries": [
         "<!@(node utils/find-opencv.js --libs)"
       ],
-      "copies": [
-        {
-          "destination": "<(PRODUCT_DIR)",
-          "files": [
-            "<!@(node utils/find-opencv.js --dlls)"
-          ]
-        }
-      ],
       # For windows
 
       "include_dirs": [
@@ -143,7 +135,15 @@
       "dependencies": [ "<(module_name)" ],
       "copies": [
       {
-        "files": [ "<(PRODUCT_DIR)/<(module_name).node" ],
+        //-->
+        //"files": [ "<(PRODUCT_DIR)/<(module_name).node" ],
+        //--
+        // jw.yi@astams.com 2016-05-16 : Copy dependent DLL files
+        "files": [
+          "<(PRODUCT_DIR)/<(module_name).node",
+          "<!@(node utils/find-opencv.js --dlls)"
+        ],
+        //<--
         "destination": "<(module_path)"
       }
       ]
