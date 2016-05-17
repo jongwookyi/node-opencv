@@ -66,6 +66,22 @@ function printPaths(opencvPath){
             console.log(libs);
         });
     }
+    else if (flag === "--dlls") {
+        var dllPath = opencvPath + "\\bin\\";
+        fs.readdir(dllPath, function (err, files) {
+            if (err) {
+                throw new Error("ERROR: couldn't read the dll directory " + err);
+            }
+
+            var dlls = "";
+            for (var i = 0; i < files.length; ++i) {
+                if (getExtension(files[i]) === "dll") {
+                    dlls = dlls + " \"" + dllPath + files[i] + "\" \r\n ";
+                }
+            }
+            console.log(dlls);
+        });
+    }
     else {
         throw new Error("Error: unknown argument '" + flag + "'");
     }

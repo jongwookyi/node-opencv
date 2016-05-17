@@ -26,6 +26,14 @@
       "libraries": [
         "<!@(node utils/find-opencv.js --libs)"
       ],
+      "copies": [
+        {
+          "destination": "<(PRODUCT_DIR)",
+          "files": [
+            "<!@(node utils/find-opencv.js --dlls)"
+          ]
+        }
+      ],
       # For windows
 
       "include_dirs": [
