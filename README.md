@@ -1,11 +1,8 @@
 # node-opencv
-## Caution
-- This is forked version of https://github.com/peterbraden/node-opencv
-- Modified:  
- 1. Change VideoCapture's set and get method
- 2. Add imencode function
 
-## Description
+[![Build Status](https://secure.travis-ci.org/peterbraden/node-opencv.png)](http://travis-ci.org/peterbraden/node-opencv)
+[![Coverage](http://codecov.io/github/peterbraden/node-opencv/coverage.svg?branch=master)](https://codecov.io/gh/peterbraden/node-opencv)
+
 [OpenCV](http://opencv.org) bindings for Node.js. OpenCV is
 the defacto computer vision library - by interfacing with it natively in node,
 we get powerful real time vision in js.
@@ -38,7 +35,7 @@ adjust accordingly.
    set the "vcxx" part of the variables above to match.
 
 4. Download peterbraden/node-opencv fork
-git clone https://github.com/kukdh1/node-opencv
+git clone https://github.com/peterbraden/node-opencv
 
 5. run npm install
 
@@ -69,7 +66,7 @@ cv.readImage("./examples/files/mona.png", function(err, im){
 ### Matrix
 
 The [matrix](http://opencv.jp/opencv-2svn_org/cpp/core_basic_structures.html#mat) is the most useful
-base datastructure in OpenCV. Things like images are just matrices of pixels.
+base data structure in OpenCV. Things like images are just matrices of pixels.
 
 #### Creation
 
@@ -166,7 +163,7 @@ im.line([x1,y1], [x2, y2])
 #### Object Detection
 
 There is a shortcut method for
-[Viola-Jones Haar Cascade](http://www.cognotics.com/opencv/servo_2007_series/part_2/sidebar.html) object
+[Viola-Jones Haar Cascade](http://docs.opencv.org/trunk/d7/d8b/tutorial_py_face_detection.html) object
 detection. This can be used for face detection etc.
 
 ```javascript
@@ -225,6 +222,20 @@ contours.fitEllipse(index);
 contours.approxPolyDP(index, epsilon, isClosed);
 contours.convexHull(index, clockwise);
 ```
+
+## Test
+
+Using [tape](https://github.com/substack/tape). Run with command:
+
+`npm test`.
+
+## Code coverage
+
+Using [istanbul](http://gotwarlost.github.io/istanbul/) and [lcov](http://ltp.sourceforge.net/coverage/lcov.php). Run with command:
+
+`make cover`
+
+Build version of `opencv.node` will be generated, and coverage files will be put in `coverage/` directory. These files can be remvoved automatically by running `make clean`.
 
 ## MIT License
 The library is distributed under the MIT License - if for some reason that
