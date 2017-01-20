@@ -11,7 +11,6 @@ void OpenCV::Init(Local<Object> target) {
   target->Set(Nan::New<String>("version").ToLocalChecked(), Nan::New<String>(out, n).ToLocalChecked());
 
   Nan::SetMethod(target, "readImage", ReadImage);
-  Nan::SetMethod(target, "encodeImage", EncodeImage);
 }
 
 NAN_METHOD(OpenCV::ReadImage) {
@@ -54,56 +53,6 @@ NAN_METHOD(OpenCV::ReadImage) {
 
     img->mat = mat;
   } catch (cv::Exception& e) {
-    argv[0] = Nan::Error(e.what());
-    argv[1] = Nan::Null();
-  }
-
-  Nan::TryCatch try_catch;
-  cb->Call(Nan::GetCurrentContext()->Global(), 2, argv);
-
-  if (try_catch.HasCaught()) {
-    Nan::FatalException(try_catch);
-  }
-
-  return;
-}
-
-NAN_METHOD(OpenCV::EncodeImage) {
-  Nan::EscapableHandleScope scope;
-
-  REQ_FUN_ARG(2, cb);
-
-  if (!info[0]->IsObject()) {
-    Nan::ThrowTypeError(Nan::New<String>("Argument 1 must be Matrix.").ToLocalChecked());
-
-    return;
-  }
-  if (!info[1]->IsString()) {
-    Nan::ThrowTypeError(Nan::New<String>("Argument 2 must be String.").ToLocalChecked());
-
-    return;
-  }
-
-  Local<Value> argv[2];
-
-  Matrix *im = Nan::ObjectWrap::Unwrap<Matrix>(info[0]->ToObject());
-  String::Utf8Value extension(info[1]->ToString());
-  char *pExt = (char*)(*extension);
-
-  try {
-    cv::Mat &mat = im->mat;
-    std::vector<uchar> bytearray;
-
-    if (!cv::imencode(pExt, mat, bytearray)) {
-      argv[0] = Nan::Error("Fail to encode");
-      argv[1] = Nan::Null();
-    }
-    else {
-      argv[0] = Nan::Null();
-      argv[1] = Nan::NewBuffer((char *)bytearray.data(), bytearray.size()).ToLocalChecked();
-    }
-  }
-  catch (cv::Exception& e) {
     argv[0] = Nan::Error(e.what());
     argv[1] = Nan::Null();
   }

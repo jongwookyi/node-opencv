@@ -66,6 +66,7 @@ function printPaths(opencvPath){
             console.log(libs);
         });
     }
+    //--> jw.yi@astams.com 2016-05-16 : Copy dependent DLL files
     else if (flag === "--dlls") {
         var dllPath = opencvPath + "\\bin\\";
         fs.readdir(dllPath, function (err, files) {
@@ -82,6 +83,7 @@ function printPaths(opencvPath){
             console.log(dlls);
         });
     }
+    //<--
     else {
         throw new Error("Error: unknown argument '" + flag + "'");
     }
