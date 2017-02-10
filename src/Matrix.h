@@ -36,6 +36,7 @@ public:
   JSFUNC(Size)
   JSFUNC(Width)
   JSFUNC(Height)
+  JSFUNC(Type)
   JSFUNC(Channels)
   JSFUNC(Clone)
   JSFUNC(Ellipse)
@@ -68,7 +69,10 @@ public:
   JSFUNC(ROI)
   JSFUNC(Ptr)
   JSFUNC(AbsDiff)
+  JSFUNC(Dct)
+  JSFUNC(Idct)
   JSFUNC(AddWeighted)
+  JSFUNC(Add)
   JSFUNC(BitwiseXor)
   JSFUNC(BitwiseNot)
   JSFUNC(BitwiseAnd)
@@ -109,6 +113,7 @@ public:
   JSFUNC(FloodFill)
 
   JSFUNC(MatchTemplate)
+  JSFUNC(MatchTemplateByMatrix)
   JSFUNC(TemplateMatches)
   JSFUNC(MinMaxLoc)
 
