@@ -43,6 +43,7 @@ void Matrix::Init(Local<Object> target) {
   Nan::SetPrototypeMethod(ctor, "toBufferAsync", ToBufferAsync);
   Nan::SetPrototypeMethod(ctor, "ellipse", Ellipse);
   Nan::SetPrototypeMethod(ctor, "rectangle", Rectangle);
+  Nan::SetPrototypeMethod(ctor, "circle", Circle);
   Nan::SetPrototypeMethod(ctor, "line", Line);
   Nan::SetPrototypeMethod(ctor, "fillPoly", FillPoly);
   Nan::SetPrototypeMethod(ctor, "save", Save);
@@ -884,6 +885,34 @@ NAN_METHOD(Matrix::Rectangle) {
   info.GetReturnValue().Set(Nan::Null());
 }
 
+NAN_METHOD(Matrix::Circle) {
+  SETUP_FUNCTION(Matrix)
+
+  if (!info[0]->IsArray()) {
+    Nan::ThrowTypeError("The argument 0 must be an array!");
+  }
+
+  Local < Object > xy = info[0]->ToObject();
+  cv::Point center(xy->Get(0)->IntegerValue(), xy->Get(1)->IntegerValue());
+
+  int radius = info[1]->IntegerValue();
+
+  cv::Scalar color(0, 0, 0);
+  if (info[2]->IsArray()) {
+    Local < Object > objColor = info[2]->ToObject();
+    color = setColor(objColor);
+  }
+  
+  int thickness = 1;
+  if (info[3]->IntegerValue()) {
+    thickness = info[3]->IntegerValue();
+  }
+
+  cv::circle(self->mat, center, radius, color, thickness);
+
+  info.GetReturnValue().Set(Nan::Null());
+}
+
 NAN_METHOD(Matrix::Line) {
   SETUP_FUNCTION(Matrix)
 
@@ -1661,7 +1690,12 @@ NAN_METHOD(Matrix::HoughCircles) {
 
   cv::Mat gray;
 
-  equalizeHist(self->mat, gray);
+  //-->
+  //equalizeHist(self->mat, gray);
+  //--
+  // jw.yi@astams.com 2017-01-20 : Do image processing from outside
+  self->mat.copyTo(gray);
+  //<--
 
   cv::HoughCircles(gray, circles, CV_HOUGH_GRADIENT, dp, minDist,
       higherThreshold, accumulatorThreshold, minRadius, maxRadius);

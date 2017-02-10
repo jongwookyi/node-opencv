@@ -1,9 +1,4 @@
 # node-opencv
-## Caution
-- This is forked version of https://github.com/peterbraden/node-opencv
-- Modified:  
- 1. Change VideoCapture's set and get method
- 2. Add imencode function
 
 [![Build Status](https://secure.travis-ci.org/peterbraden/node-opencv.png)](http://travis-ci.org/peterbraden/node-opencv)
 [![Coverage](http://codecov.io/github/peterbraden/node-opencv/coverage.svg?branch=master)](https://codecov.io/gh/peterbraden/node-opencv)
@@ -40,7 +35,7 @@ adjust accordingly.
    set the "vcxx" part of the variables above to match.
 
 4. Download peterbraden/node-opencv fork
-git clone https://github.com/kukdh1/node-opencv
+git clone https://github.com/peterbraden/node-opencv
 
 5. run npm install
 
